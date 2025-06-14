@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>RandomArenaGunBy.SaraPao</title>
   <style>
     body {
       text-align: center;
       font-family: sans-serif;
-      background: #111;
-      color: #fff;
+      margin-top: 20px;
     }
-    h1 {
-      margin-top: 30px;
-      font-size: 32px;
-    }
+
     .pointer {
       width: 0;
       height: 0;
@@ -22,105 +18,106 @@
       border-bottom: 30px solid red;
       margin: 20px auto;
     }
+
     .wheel {
+      position: relative;
       width: 500px;
       height: 500px;
       border-radius: 50%;
-      border: 8px solid #fff;
+      border: 10px solid #444;
       margin: 0 auto;
-      position: relative;
       overflow: hidden;
       transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
     }
-    .segment {
+
+    .slice {
+      position: absolute;
       width: 50%;
       height: 500px;
-      position: absolute;
-      top: 0;
       left: 50%;
+      top: 0;
       transform-origin: 0% 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 5px;
+    }
+
+    .label {
+      position: absolute;
+      left: 55%;
+      top: 50%;
+      transform-origin: left center;
+      font-size: 12px;
+      color: white;
       font-weight: bold;
-      color: #fff;
-      font-size: 10px;
-      text-align: center;
+      white-space: nowrap;
     }
-    .segment span {
-      transform: rotate(-90deg);
-      display: block;
-      width: 100px;
-      word-break: break-word;
-    }
+
     button {
-      font-size: 20px;
+      margin-top: 20px;
+      font-size: 18px;
       padding: 10px 20px;
-      margin-top: 30px;
-      background: #28a745;
-      color: #fff;
+      background-color: #222;
+      color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
     }
-    #result {
-      margin-top: 20px;
-      font-size: 20px;
-      color: #0f0;
-    }
   </style>
 </head>
 <body>
-  <h1>RandomArenaGunBy.SaraPao</h1>
+
+  <h1>🎯 RandomArenaGunBy.SaraPao</h1>
   <div class="pointer"></div>
   <div class="wheel" id="wheel"></div>
-  <button onclick="spin()">สุ่มอาวุธ!</button>
-  <p id="result"></p>
+  <button onclick="หมุน()">สุ่มปืน!</button>
+  <p id="ผลลัพธ์" style="margin-top: 15px; font-weight: bold;"></p>
 
   <script>
-    const weapons = [
-      "G17", "M9A3", "G18C", "MP9", "Deagle", "Gold Deagle", "T54", "M1911", "T05", "M45A1", "CZ52", "F57",
-      "MP133", "M870", "USAS12", "S12K", "SPR310",
-      "ACE31", "AEK", "AK74N", "AN94", "AR57", "AUG", "AKS74U", "F2000", "H416", "MDR", "AK102", "AKM", "FAL", "M4A1",
-      "MP5", "P90", "MPX", "UMP45", "UZI", "MAC10", "M3A1", "MP40", "T79", "QC61", "MPF45", "T85", "Vector 45", "Vector 9",
-      "M16", "SVTU", "BM59", "Mini14", "M96", "SA85M", "SKS",
-      "SVDS", "VSS", "MK14", "M110",
-      "Mosin", "M24", "SJ16", "AX50",
-      "RPK16"
+    const รายการ = [
+      "AK-47", "M4A1", "MP5", "Desert Eagle", "RSASS", "PKP", "G17", "M870",
+      "SKS", "F2000", "UZI", "AX50", "M249", "SR25", "FAL", "SCAR-H", "UMP45",
+      "M1A", "Mosin", "G28", "AUG", "QBZ-191", "TYPE-56", "MK14", "QBU", "SVDS",
+      "MK12", "MDR", "M4-SOPMOD", "P90", "MP7", "G36", "AK-74N", "Vepr", "M870",
+      "KS-23", "Saiga-12", "TT-33", "USP", "FN57", "Glock-19", "Glock-18", "RSH-12",
+      "M9", "PPSh-41", "RPK", "AKS-74U", "L96", "QBU-88", "CZ75", "KAC PDW", "VAL",
+      "PP-19", "AK-105", "MP9", "HK-416", "SIG MCX", "SIG MPX", "MCX Spear"
     ];
 
     const wheel = document.getElementById("wheel");
-    let rotation = 0;
+    const num = รายการ.length;
+    const angle = 360 / num;
 
-    function createWheel() {
-      wheel.innerHTML = "";
-      const degPerSegment = 360 / weapons.length;
-      weapons.forEach((weapon, i) => {
-        const segment = document.createElement("div");
-        segment.className = "segment";
-        segment.style.background = `hsl(${i * degPerSegment}, 70%, 40%)`;
-        segment.style.transform = `rotate(${i * degPerSegment}deg)`;
+    const colors = ["#e74c3c", "#3498db", "#2ecc71", "#f1c40f", "#9b59b6", "#1abc9c", "#e67e22", "#34495e"];
 
-        const text = document.createElement("span");
-        text.innerText = weapon;
-        segment.appendChild(text);
+    // วาดแต่ละช่อง
+    for (let i = 0; i < num; i++) {
+      const slice = document.createElement("div");
+      slice.className = "slice";
+      slice.style.background = colors[i % colors.length];
+      slice.style.transform = `rotate(${i * angle}deg)`;
+      wheel.appendChild(slice);
 
-        wheel.appendChild(segment);
-      });
+      const label = document.createElement("div");
+      label.className = "label";
+      label.innerText = รายการ[i];
+      label.style.transform = `rotate(${angle / 2}deg)`;
+      slice.appendChild(label);
     }
 
-    function spin() {
-      const randomIndex = Math.floor(Math.random() * weapons.length);
-      const degPerSegment = 360 / weapons.length;
-      rotation += 360 * 6 + (360 - randomIndex * degPerSegment);
-      wheel.style.transform = `rotate(${rotation}deg)`;
+    let รอบ = 0;
+
+    function หมุน() {
+      const index = Math.floor(Math.random() * num);
+      รอบ += 5;
+      const finalAngle = รอบ * 360 + (360 - index * angle - angle / 2); // คำนวณให้ตรง pointer
+
+      wheel.style.transform = `rotate(${finalAngle}deg)`;
+
       setTimeout(() => {
-        document.getElementById("result").innerText = `คุณได้: ${weapons[randomIndex]}`;
+        const ปืน = รายการ[index];
+        document.getElementById("ผลลัพธ์").innerText = "คุณสุ่มได้: " + ปืน;
+        alert("🎉 คุณสุ่มได้: " + ปืน + " !");
       }, 5000);
     }
-
-    createWheel();
   </script>
+
 </body>
 </html>
