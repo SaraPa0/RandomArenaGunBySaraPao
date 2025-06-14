@@ -1,89 +1,120 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>RandomArenaGunBy.SaraPao</title>
   <style>
-    body { text-align: center; font-family: sans-serif; margin-top: 20px; }
-    .pointer { width:0;height:0;border-left:25px solid transparent;border-right:25px solid transparent;border-bottom:35px solid red;margin: auto; }
+    body {
+      text-align: center;
+      font-family: sans-serif;
+      margin: 20px;
+    }
+    .pointer {
+      width: 0;
+      height: 0;
+      border-left: 30px solid transparent;
+      border-right: 30px solid transparent;
+      border-bottom: 40px solid red;
+      margin: 20px auto;
+    }
     .wheel {
-      position: relative; width: 600px; height: 600px;
-      border-radius: 50%; border: 12px solid #444;
-      margin: auto; overflow: hidden;
-      transition: transform 5s cubic-bezier(0.33,1,0.68,1);
+      position: relative;
+      width: 1000px;
+      height: 1000px;
+      border-radius: 50%;
+      border: 12px solid #444;
+      margin: auto;
+      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
+      overflow: hidden;
     }
     .slice {
-      position: absolute; width: 50%; height: 600px;
-      left:50%; top:0; transform-origin: 0% 50%;
+      position: absolute;
+      width: 50%;
+      height: 1000px;
+      left: 50%;
+      top: 0;
+      transform-origin: 0% 50%;
     }
     .label {
-      position: absolute; left: 60%; top: 50%;
+      position: absolute;
+      left: 60%;
+      top: 50%;
       transform-origin: left center;
-      font-size: 10px; color: white; font-weight: bold;
+      font-size: 9px;
+      color: white;
+      font-weight: bold;
       white-space: nowrap;
     }
     button {
-      margin-top: 20px; font-size: 18px;
+      margin-top: 20px;
+      font-size: 18px;
       padding: 10px 20px;
-      background: #222; color: #fff;
-      border: none; border-radius: 6px;
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
+    }
+    #ผลลัพธ์ {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-<h1>🎯 RandomArenaGunBy.SaraPao</h1>
-<div class="pointer"></div>
-<div id="wheel" class="wheel"></div>
-<button onclick="หมุน()">สุ่มอาวุธ!</button>
-<p id="ผลลัพธ์" style="margin-top:15px;font-weight:bold;"></p>
+  <h1>🔫 RandomArenaGunBy.SaraPao</h1>
+  <div class="pointer"></div>
+  <div id="wheel" class="wheel"></div>
+  <button onclick="หมุน()">สุ่มอาวุธ!</button>
+  <p id="ผลลัพธ์"></p>
 
-<script>
-  // รายชื่ออาวุธทั้งหมดเว้นปืนพก
-  const รายการ = [
-    "MP133","M870","USAS12","S12K","SPR310",
-    "ACE31","AEK","AK74N","AN94","AR57","AUG","AKS74U","F2000","H416","MDR","AK102","AKM","FAL","M4A1",
-    "MP5","P90","MPX","UMP45","UZI","MAC10","M3A1","MP40","T79","QC61","MPF45","T85","Vector 45","Vector 9",
-    "M16","SVTU","BM59","Mini14","M96","SA85M","SKS",
-    "SVDS","VSS","MK14","M110",
-    "Mosin","M24","SJ16","AX50",
-    "RPK16"
-  ];
+  <script>
+    const รายการ = [
+      "MP133","M870","USAS12","S12K","SPR310",
+      "ACE31","AEK","AK74N","AN94","AR57","AUG","AKS74U","F2000","H416","MDR","AK102","AKM","FAL","M4A1",
+      "MP5","P90","MPX","UMP45","UZI","MAC10","M3A1","MP40","T79","QC61","MPF45","T85","Vector 45","Vector 9",
+      "M16","SVTU","BM59","Mini14","M96","SA85M","SKS",
+      "SVDS","VSS","MK14","M110",
+      "Mosin","M24","SJ16","AX50",
+      "RPK16"
+    ];
 
-  const wheel = document.getElementById("wheel");
-  const num = รายการ.length;
-  const angle = 360 / num;
-  const colors = ["#e74c3c","#3498db","#2ecc71","#f1c40f","#9b59b6","#1abc9c","#e67e22","#34495e"];
+    const wheel = document.getElementById("wheel");
+    const num = รายการ.length;
+    const angle = 360 / num;
+    const colors = ["#e74c3c","#3498db","#2ecc71","#f1c40f","#9b59b6","#1abc9c","#e67e22","#34495e"];
 
-  // สร้างวงล้อ
-  for (let i = 0; i < num; i++) {
-    const slice = document.createElement("div");
-    slice.className = "slice";
-    slice.style.background = colors[i % colors.length];
-    slice.style.transform = `rotate(${i * angle}deg)`;
-    wheel.appendChild(slice);
+    // สร้างวงล้อ
+    for (let i = 0; i < num; i++) {
+      const slice = document.createElement("div");
+      slice.className = "slice";
+      slice.style.background = colors[i % colors.length];
+      slice.style.transform = `rotate(${i * angle}deg)`;
+      wheel.appendChild(slice);
 
-    const label = document.createElement("div");
-    label.className = "label";
-    label.innerText = รายการ[i];
-    label.style.transform = `rotate(${i * angle + angle/2}deg)`;
-    slice.appendChild(label);
-  }
+      const label = document.createElement("div");
+      label.className = "label";
+      label.innerText = รายการ[i];
+      label.style.transform = `rotate(${i * angle + angle/2}deg)`;
+      slice.appendChild(label);
+    }
 
-  let รอบ = 0;
-  function หมุน() {
-    const index = Math.floor(Math.random() * num);
-    รอบ += 5;
-    const final = รอบ*360 + (360 - index*angle - angle/2);
-    wheel.style.transform = `rotate(${final}deg)`;
-    setTimeout(() => {
-      const gun = รายการ[index];
-      document.getElementById("ผลลัพธ์").innerText = "คุณสุ่มได้: " + gun;
-      alert("🎉 ได้: " + gun);
-    }, 5000);
-  }
-</script>
+    let รอบ = 0;
+    function หมุน() {
+      const index = Math.floor(Math.random() * num);
+      รอบ += 5;
+      const final = รอบ * 360 + (360 - index * angle - angle / 2);
+      wheel.style.transform = `rotate(${final}deg)`;
+
+      setTimeout(() => {
+        const gun = รายการ[index];
+        document.getElementById("ผลลัพธ์").innerText = "🎯 คุณสุ่มได้: " + gun;
+        alert("🎉 ได้: " + gun);
+      }, 5000);
+    }
+  </script>
 
 </body>
 </html>
