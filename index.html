@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>RandomArenaGunBy.SaraPao</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+      margin-top: 30px;
+    }
+
+    .pointer {
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 30px solid red;
+      margin: 20px auto;
+    }
+
+    .wheel {
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      border: 8px solid #444;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+
+    .slice {
+      width: 50%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform-origin: 0% 50%;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 10px;
+      font-weight: bold;
+      color: #fff;
+      writing-mode: horizontal-tb;
+      font-size: 14px;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      background: #222;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>RandomArenaGunBy.SaraPao</h1>
+  <div class="pointer"></div>
+
+  <div class="wheel" id="wheel"></div>
+
+  <button onclick="หมุน()">สุ่มปืน!</button>
+  <p id="ผลลัพธ์"></p>
+
+  <script>
+    const รายการ = [
+      "AK-47", "M4A1", "MP5", "Desert Eagle",
+      "RSASS", "PKP", "G17", "M870",
+      "SKS", "F2000", "UZI", "AX50"
+    ];
+
+    const สี = ["#e74c3c", "#2ecc71", "#3498db", "#f1c40f", "#9b59b6", "#1abc9c", "#e67e22", "#34495e", "#c0392b", "#27ae60", "#2980b9", "#8e44ad"];
+
+    const wheel = document.getElementById("wheel");
+
+    const num = รายการ.length;
+    const angle = 360 / num;
+
+    for (let i = 0; i < num; i++) {
+      const slice = document.createElement("div");
+      slice.className = "slice";
+      slice.style.background = สี[i % สี.length];
+      slice.style.transform = `rotate(${i * angle}deg)`;
+      slice.innerText = รายการ[i];
+      wheel.appendChild(slice);
+    }
+
+    let รอบ = 0;
+
+    function หมุน() {
+      const index = Math.floor(Math.random() * num);
+      รอบ += 5;
+      const finalAngle = รอบ * 360 + index * angle + angle / 2;
+
+      wheel.style.transform = `rotate(${finalAngle}deg)`;
+
+      setTimeout(() => {
+        const ปืนที่ได้ = รายการ[index];
+        document.getElementById("ผลลัพธ์").innerText = "คุณได้: " + ปืนที่ได้;
+        alert("🎉 คุณสุ่มได้: " + ปืนที่ได้ + " !");
+      }, 5000);
+    }
+  </script>
+
+</body>
+</html>
